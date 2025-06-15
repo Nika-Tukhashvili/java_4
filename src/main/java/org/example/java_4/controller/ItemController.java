@@ -1,36 +1,34 @@
 package org.example.java_4.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.example.java_4.model.ItemModel;
 import org.example.java_4.model.ItemRequest;
 import org.example.java_4.service.ItemService;
 import org.example.java_4.util.ItemUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/item")
+@RequiredArgsConstructor
 public class ItemController {
 
     private final ItemService itemService;
 
-    public ItemController(ItemService itemService) {
-        this.itemService = itemService;
-    }
-
     @PostMapping
-    public void addItem(@RequestBody ItemRequest itemRequest) throws NoSuchFieldException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        ItemModel itemModel = ItemUtils.convertItem(itemRequest);
-        itemService.addItem(itemModel);
+    public ResponseEntity<Void> addItem(@RequestBody ItemRequest itemRequest) throws Exception {
+        itemService.addItem(ItemUtils.convertItem(itemRequest));
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public List<ItemModel> getItems() {
-        return itemService.getItems();
+    public ResponseEntity<List<ItemModel>> getItems() {
+        return ResponseEntity.ok(itemService.getItems());
     }
 }

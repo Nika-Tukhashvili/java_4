@@ -8,12 +8,12 @@ import java.util.List;
 
 @Service
 public class ItemService {
-    private List<ItemModel> items = new ArrayList<>();
-
+    private final List<ItemModel> items = new ArrayList<>();
 
     public void addItem(ItemModel itemModel) {
         items.add(itemModel);
     }
+
     public List<ItemModel> getItems() {
         return items;
     }
